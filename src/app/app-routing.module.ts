@@ -1,6 +1,10 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { PlanetsComponent } from "./components/planets/planets.component";
+import { NgModule } from "@angular/core";
+import {
+  ExtraOptions,
+  PreloadAllModules,
+  RouterModule,
+  Routes
+} from "@angular/router";
 
 const routes: Routes = [
   {
@@ -9,13 +13,18 @@ const routes: Routes = [
     pathMatch: "full"
   },
   {
-    path: 'planets',
-    component: PlanetsComponent
+    path: "planets",
+    loadChildren: () => import("./modules/planets/planets.module").then(m => m.PlanetsModule)
   }
 ];
 
+const routerConfig: ExtraOptions = {
+  preloadingStrategy: PreloadAllModules
+}
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, routerConfig)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

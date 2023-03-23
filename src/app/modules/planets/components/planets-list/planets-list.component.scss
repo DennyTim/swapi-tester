@@ -1,0 +1,37 @@
+.planets {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-gap: 10px;
+
+  &__card {
+    cursor: pointer;
+    text-decoration: none;
+
+    &-header {
+      margin: 10px 0 10px;
+      align-items: center;
+    }
+
+    &-desc {
+      color: white;
+    }
+
+    &-desc:not(:first-child) {
+      margin-top: 5px;
+    }
+
+    .mat-mdc-card-header {
+      padding-top: 0;
+    }
+
+    .mat-mdc-card-content {
+      padding-top: 16px;
+    }
+
+    .mat-mdc-card-title {
+      margin-bottom: 0;
+      color: #fff;
+    }
+  }
+}

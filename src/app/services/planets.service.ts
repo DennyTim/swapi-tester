@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { PlanetsRequestPayload } from "./planets.model";
+import { PlanetsRequestPayload } from "../interfaces/planets.model";
 
 @Injectable({
   providedIn: "root"
