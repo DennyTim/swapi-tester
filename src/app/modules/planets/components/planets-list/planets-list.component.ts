@@ -1,9 +1,7 @@
-import {
-  Component,
-  OnInit
-} from "@angular/core";
-import { PlanetsModel } from "../../../../interfaces/planets.model";
-import { PlanetsService } from "../../../../services/planets.service";
+import {Component, OnInit} from "@angular/core";
+import {PlanetsModel} from "../../../../interfaces/planets.model";
+import {PlanetsService} from "../../../../services/planets.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-planets-list',
@@ -13,7 +11,11 @@ import { PlanetsService } from "../../../../services/planets.service";
 export class PlanetsListComponent implements OnInit {
   public allPlanets: PlanetsModel[] = [];
 
-  constructor(private planetsService: PlanetsService) {
+  constructor(
+    private planetsService: PlanetsService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
   }
 
   public ngOnInit() {
@@ -21,5 +23,16 @@ export class PlanetsListComponent implements OnInit {
       .subscribe((data) => {
         this.allPlanets = data.results;
       });
+  }
+
+  public trackById(_: number, item: PlanetsModel): string {
+    return item.id;
+  }
+
+  public handlePlanetDetails(url: string): void {
+    const planetParams = url.split("/").filter(item => item);
+    const id = Number(planetParams[planetParams.length - 1]);
+
+    void this.router.navigate([`/planets/${id}`],  { relativeTo: this.route });
   }
 }

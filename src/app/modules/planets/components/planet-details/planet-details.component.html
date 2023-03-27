@@ -1,0 +1,29 @@
+<div class="planet-detail">
+  <mat-card class="planet-detail__card">
+    <mat-card-header>
+      <img
+        mat-card-avatar
+        class="planet-detail__avatar"
+        src="https://starwars-visualguide.com/assets/img/planets/5.jpg"
+        alt="Photo of {{ planet.name }}"
+      >
+      <mat-card-title>{{ planet.name }}</mat-card-title>
+    </mat-card-header>
+    <img
+      mat-card-image
+      src="https://starwars-visualguide.com/assets/img/planets/5.jpg"
+      alt="Photo of {{ planet.name }}"
+    >
+  </mat-card>
+  <mat-list class="planet-detail__options">
+    <ng-container *ngFor="let param of planetParams">
+      <mat-list-item
+        *ngIf="planet[param]"
+        class="planet-detail__options-item"
+      >
+        <p matListItemTitle class="planet-detail__options-title">{{ param | titlecase }}</p>
+        <p matListItemLine class="planet-detail__options-value">{{ planet[param] }}</p>
+      </mat-list-item>
+    </ng-container>
+  </mat-list>
+</div>

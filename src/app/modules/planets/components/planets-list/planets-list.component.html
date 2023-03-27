@@ -1,6 +1,9 @@
 <div class="planets">
-  <a *ngFor="let planet of allPlanets" class="planets__card">
-    <mat-card>
+  <a
+    *ngFor="let planet of allPlanets; trackBy: trackById"
+    class="planets__card"
+  >
+    <mat-card (click)="handlePlanetDetails(planet.url)">
       <mat-card-header class="planets__card-header">
         <mat-card-title>{{ planet.name }}</mat-card-title>
       </mat-card-header>

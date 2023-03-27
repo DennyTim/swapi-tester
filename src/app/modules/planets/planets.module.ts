@@ -7,6 +7,8 @@ import {
 } from "@angular/router";
 import { PlanetsComponent } from "./planets.component";
 import { PlanetsListComponent } from './components/planets-list/planets-list.component';
+import { PlanetDetailsComponent } from './components/planet-details/planet-details.component';
+import {MatListModule} from "@angular/material/list";
 
 const routes: Routes = [
   {
@@ -17,6 +19,11 @@ const routes: Routes = [
         path: "",
         component: PlanetsListComponent,
         pathMatch: "full"
+      },
+      {
+        path: ":id",
+        component: PlanetDetailsComponent,
+        pathMatch: "full"
       }
     ]
   }
@@ -26,11 +33,13 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    MatCardModule
+    MatCardModule,
+    MatListModule
   ],
   declarations: [
     PlanetsComponent,
-    PlanetsListComponent
+    PlanetsListComponent,
+    PlanetDetailsComponent
   ],
 })
 export class PlanetsModule {
