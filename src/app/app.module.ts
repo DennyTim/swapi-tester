@@ -9,6 +9,10 @@ import {HeaderComponent} from './components/header/header.component';
 import {FooterComponent} from './components/footer/footer.component';
 import {ErrorPageComponent} from './components/error-page/error-page.component';
 import {LoadingInterceptor} from "./interceptors/loading.interceptor";
+import {StoreModule} from "@ngrx/store";
+import {EffectsModule} from "@ngrx/effects";
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {mainReducer} from "./store";
 
 @NgModule({
   declarations: [
@@ -24,7 +28,10 @@ import {LoadingInterceptor} from "./interceptors/loading.interceptor";
      * Custom modules
      * */
     AppRoutingModule,
-    MatToolbarModule
+    MatToolbarModule,
+    StoreModule.forRoot(mainReducer),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({maxAge: 25})
   ],
   providers: [
     {

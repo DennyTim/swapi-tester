@@ -1,5 +1,8 @@
 import {Inject, Injectable} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
+import {AppState} from "../store";
+import {Store} from "@ngrx/store";
+import {hideLoading, setLoading} from "../store/actions/loading.action";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,8 @@ export class LoadingService {
 
   constructor(
     @Inject(DOCUMENT)
-    private document: Document
+    private document: Document,
+    private store: Store<AppState>
   ) {
   }
 
@@ -70,10 +74,10 @@ export class LoadingService {
   }
 
   private setLoader(): void {
-    // TODO: Implement it when loading state is available
+    this.store.dispatch(setLoading());
   }
 
   private hideLoader(): void {
-    // TODO: Implement it when loading state is available
+    this.store.dispatch(hideLoading());
   }
 }
