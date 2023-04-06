@@ -26,3 +26,28 @@
   </a>
 </div>
 
+
+<ng-template
+  #toolbarTmpl
+  let-loadingStatus="loadingStatus"
+>
+  <div class="planets-toolbar">
+    <button
+      mat-raised-button
+      *ngIf="!loadingStatus"
+      color="primary"
+      (click)="loadPlanets()"
+    >Show more</button>
+    <mat-spinner
+      *ngIf="loadingStatus"
+      color="primary"
+      mode="indeterminate"
+      [diameter]="30"
+    ></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-container
+  [ngTemplateOutlet]="toolbarTmpl"
+  [ngTemplateOutletContext]="{ loadingStatus: loadingStatus$ | async }"
+></ng-container>

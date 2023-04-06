@@ -17,4 +17,8 @@ export class PlanetsService {
   public getPlanetById(id: number): Observable<PlanetsModel> {
     return this.httpService.get<PlanetsModel>(`https://swapi.dev/api/planets/${id}/`)
   }
+
+  public getPlanetsByUrl(url: string): Observable<PlanetsRequestPayload> {
+    return this.httpService.get<PlanetsRequestPayload>(url);
+  }
 }

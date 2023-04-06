@@ -1,7 +1,11 @@
 import {Component, OnInit} from "@angular/core";
-import {PlanetsModel} from "../../../../interfaces/planets.model";
+import {PlanetsModel, PlanetsRequestPayload} from "../../../../interfaces/planets.model";
 import {PlanetsService} from "../../../../services/planets.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {AppState} from "../../../../store";
+import {select, Store} from "@ngrx/store";
+import {getLoadingStatus} from "../../../../store/selectors/loading.selector";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-planets-list',
@@ -9,12 +13,15 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./planets-list.component.scss']
 })
 export class PlanetsListComponent implements OnInit {
+  public payload: Partial<PlanetsRequestPayload> = {};
   public allPlanets: PlanetsModel[] = [];
+  public loadingStatus$?: Observable<boolean>;
 
   constructor(
     private planetsService: PlanetsService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store<AppState>
   ) {
   }
 
@@ -22,7 +29,10 @@ export class PlanetsListComponent implements OnInit {
     this.planetsService.getPlanets()
       .subscribe((data) => {
         this.allPlanets = data.results;
+        this.payload = data;
       });
+
+    this.loadingStatus$ = this.store.pipe(select(getLoadingStatus))
   }
 
   public trackById(_: number, item: PlanetsModel): string {
@@ -33,6 +43,16 @@ export class PlanetsListComponent implements OnInit {
     const planetParams = url.split("/").filter(item => item);
     const id = Number(planetParams[planetParams.length - 1]);
 
-    void this.router.navigate([`/planets/${id}`],  { relativeTo: this.route });
+    void this.router.navigate([`/planets/${id}`], {relativeTo: this.route});
+  }
+
+  public loadPlanets(): void {
+    if (this.payload.next) {
+      this.planetsService.getPlanetsByUrl(this.payload.next)
+        .subscribe((data) => {
+          this.allPlanets = [...this.allPlanets, ...data.results];
+          this.payload = data;
+        })
+    }
   }
 }

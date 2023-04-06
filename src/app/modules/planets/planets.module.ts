@@ -9,6 +9,8 @@ import { PlanetsComponent } from "./planets.component";
 import { PlanetsListComponent } from './components/planets-list/planets-list.component';
 import { PlanetDetailsComponent } from './components/planet-details/planet-details.component';
 import {MatListModule} from "@angular/material/list";
+import {MatButtonModule} from "@angular/material/button";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 const routes: Routes = [
   {
@@ -34,7 +36,9 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     MatCardModule,
-    MatListModule
+    MatListModule,
+    MatButtonModule,
+    MatProgressSpinnerModule
   ],
   declarations: [
     PlanetsComponent,
