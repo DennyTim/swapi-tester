@@ -1,6 +1,6 @@
 <div class="planets">
   <a
-    *ngFor="let planet of allPlanets; trackBy: trackById"
+    *ngFor="let planet of (allPlanets$ | async); trackBy: trackById"
     class="planets__card"
   >
     <mat-card (click)="handlePlanetDetails(planet.url)">
@@ -37,7 +37,8 @@
       *ngIf="!loadingStatus"
       color="primary"
       (click)="loadPlanets()"
-    >Show more</button>
+    >Show more
+    </button>
     <mat-spinner
       *ngIf="loadingStatus"
       color="primary"

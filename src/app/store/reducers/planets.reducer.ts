@@ -1,5 +1,7 @@
 import {PlanetsModel, PlanetsRequestPayload} from "../../interfaces/planets.model";
-import {Action, createReducer} from "@ngrx/store";
+import {Action, createReducer, on} from "@ngrx/store";
+import {loadPlanetsSuccess} from "../actions/planets.action";
+import {setPlanets} from "../helpers/planets.helper";
 
 export interface PlanetsState {
   planetsInfo: Partial<PlanetsRequestPayload>;
@@ -13,7 +15,10 @@ const initialState: PlanetsState = {
   selectedPlanet: {}
 }
 
-const reducer = createReducer(initialState);
+const reducer = createReducer(
+  initialState,
+  on(loadPlanetsSuccess, setPlanets)
+);
 
 export function planetsReducer(state: PlanetsState | undefined, action: Action): PlanetsState {
   return reducer(state, action);

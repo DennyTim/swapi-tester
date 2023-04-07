@@ -5,7 +5,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AppState} from "../../../../store";
 import {select, Store} from "@ngrx/store";
 import {getLoadingStatus} from "../../../../store/selectors/loading.selector";
-import {Observable} from "rxjs";
+import {Observable, pluck} from "rxjs";
+import {PlanetsStateService} from "../../../../services/planets-state.service";
+import {selectPlanetsList} from "../../../../store/selectors/planets.selector";
 
 @Component({
   selector: 'app-planets-list',
@@ -13,12 +15,13 @@ import {Observable} from "rxjs";
   styleUrls: ['./planets-list.component.scss']
 })
 export class PlanetsListComponent implements OnInit {
-  public payload: Partial<PlanetsRequestPayload> = {};
-  public allPlanets: PlanetsModel[] = [];
+  // public payload: Partial<PlanetsRequestPayload> = {};
+  public allPlanets$?: Observable<PlanetsModel[]>;
   public loadingStatus$?: Observable<boolean>;
 
   constructor(
     private planetsService: PlanetsService,
+    private planetsStateService: PlanetsStateService,
     private router: Router,
     private route: ActivatedRoute,
     private store: Store<AppState>
@@ -26,11 +29,9 @@ export class PlanetsListComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.planetsService.getPlanets()
-      .subscribe((data) => {
-        this.allPlanets = data.results;
-        this.payload = data;
-      });
+    this.planetsStateService.loadPlanets();
+
+    this.allPlanets$ = this.store.pipe(select(selectPlanetsList), pluck('results')) as Observable<PlanetsModel[]>;
 
     this.loadingStatus$ = this.store.pipe(select(getLoadingStatus))
   }
@@ -47,12 +48,12 @@ export class PlanetsListComponent implements OnInit {
   }
 
   public loadPlanets(): void {
-    if (this.payload.next) {
-      this.planetsService.getPlanetsByUrl(this.payload.next)
-        .subscribe((data) => {
-          this.allPlanets = [...this.allPlanets, ...data.results];
-          this.payload = data;
-        })
-    }
+    // if (this.payload.next) {
+    //   this.planetsService.getPlanetsByUrl(this.payload.next)
+    //     .subscribe((data) => {
+    //       this.allPlanets = [...this.allPlanets, ...data.results];
+    //       this.payload = data;
+    //     })
+    // }
   }
 }

@@ -12,7 +12,7 @@ import {LoadingInterceptor} from "./interceptors/loading.interceptor";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
-import {mainReducer} from "./store";
+import {effectList, mainReducer} from "./store";
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import {mainReducer} from "./store";
     AppRoutingModule,
     MatToolbarModule,
     StoreModule.forRoot(mainReducer),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot(effectList),
     StoreDevtoolsModule.instrument({maxAge: 25})
   ],
   providers: [
