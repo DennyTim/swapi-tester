@@ -1,13 +1,13 @@
 import {Component, OnInit} from "@angular/core";
-import {PlanetsModel, PlanetsRequestPayload} from "../../../../interfaces/planets.model";
+import {PlanetsModel} from "../../../../interfaces/planets.model";
 import {PlanetsService} from "../../../../services/planets.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AppState} from "../../../../store";
 import {select, Store} from "@ngrx/store";
 import {getLoadingStatus} from "../../../../store/selectors/loading.selector";
-import {Observable, pluck} from "rxjs";
+import {Observable, of} from "rxjs";
 import {PlanetsStateService} from "../../../../services/planets-state.service";
-import {selectPlanetsList} from "../../../../store/selectors/planets.selector";
+import {selectAllPlanets} from "../../../../store/selectors/planets.selector";
 
 @Component({
   selector: 'app-planets-list',
@@ -15,7 +15,6 @@ import {selectPlanetsList} from "../../../../store/selectors/planets.selector";
   styleUrls: ['./planets-list.component.scss']
 })
 export class PlanetsListComponent implements OnInit {
-  // public payload: Partial<PlanetsRequestPayload> = {};
   public allPlanets$?: Observable<PlanetsModel[]>;
   public loadingStatus$?: Observable<boolean>;
 
@@ -31,7 +30,7 @@ export class PlanetsListComponent implements OnInit {
   public ngOnInit() {
     this.planetsStateService.loadPlanets();
 
-    this.allPlanets$ = this.store.pipe(select(selectPlanetsList), pluck('results')) as Observable<PlanetsModel[]>;
+    this.allPlanets$ = this.store.pipe(select(selectAllPlanets)) as Observable<PlanetsModel[]>;
 
     this.loadingStatus$ = this.store.pipe(select(getLoadingStatus))
   }
@@ -48,6 +47,7 @@ export class PlanetsListComponent implements OnInit {
   }
 
   public loadPlanets(): void {
+    // TODO: remove code below after loadMorePlanets implementing
     // if (this.payload.next) {
     //   this.planetsService.getPlanetsByUrl(this.payload.next)
     //     .subscribe((data) => {
@@ -55,5 +55,6 @@ export class PlanetsListComponent implements OnInit {
     //       this.payload = data;
     //     })
     // }
+    this.planetsStateService.loadMorePlanets();
   }
 }

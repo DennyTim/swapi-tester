@@ -11,6 +11,7 @@ import { PlanetDetailsComponent } from './components/planet-details/planet-detai
 import {MatListModule} from "@angular/material/list";
 import {MatButtonModule} from "@angular/material/button";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {LetModule} from "@ngrx/component";
 
 const routes: Routes = [
   {
@@ -32,14 +33,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    MatCardModule,
-    MatListModule,
-    MatButtonModule,
-    MatProgressSpinnerModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        MatCardModule,
+        MatListModule,
+        MatButtonModule,
+        MatProgressSpinnerModule,
+        LetModule
+    ],
   declarations: [
     PlanetsComponent,
     PlanetsListComponent,

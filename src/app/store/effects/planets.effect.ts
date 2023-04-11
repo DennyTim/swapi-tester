@@ -1,11 +1,18 @@
 import {Injectable} from "@angular/core";
 import {AppState} from "../index";
-import {Store} from "@ngrx/store";
+import {select, Store} from "@ngrx/store";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {PlanetsService} from "../../services/planets.service";
-import {loadPlanets, loadPlanetsSuccess} from "../actions/planets.action";
-import {catchError, EMPTY, exhaustMap, map} from "rxjs";
+import {
+  loadMorePlanets,
+  loadMorePlanetsFailure,
+  loadMorePlanetsSuccess,
+  loadPlanets,
+  loadPlanetsSuccess
+} from "../actions/planets.action";
+import {catchError, EMPTY, exhaustMap, iif, map, of, withLatestFrom} from "rxjs";
 import {PlanetsRequestPayload} from "../../interfaces/planets.model";
+import {getPlanetNextUrl} from "../selectors/planets.selector";
 
 @Injectable()
 export class PlanetsEffect {
@@ -29,4 +36,21 @@ export class PlanetsEffect {
     })
   ));
 
+  loadMorePlanetsEffect$ = createEffect(() => this.actions$.pipe(
+    ofType(loadMorePlanets),
+    withLatestFrom(this.store.pipe(select(getPlanetNextUrl))),
+    exhaustMap(([_, url]) => {
+      const nextUrl = url || '';
+      return iif(
+        () => !!nextUrl,
+        this.planetsService.getPlanetsByUrl(nextUrl).pipe(
+          catchError(() => EMPTY),
+          map((planetsInfo: PlanetsRequestPayload) => {
+            return loadMorePlanetsSuccess({planetsInfo})
+          })
+        ),
+        of(loadMorePlanetsFailure({error: new Error(`Next url isn't exist`)}))
+      );
+    })
+  ));
 }

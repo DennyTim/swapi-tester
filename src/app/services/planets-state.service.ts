@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {AppState} from "../store";
 import {Store} from "@ngrx/store";
-import {loadPlanets} from "../store/actions/planets.action";
+import {loadMorePlanets, loadPlanets} from "../store/actions/planets.action";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,10 @@ export class PlanetsStateService {
   }
 
   public loadPlanets(): void {
-    this.store.dispatch(loadPlanets())
+    this.store.dispatch(loadPlanets());
+  }
+
+  public loadMorePlanets(): void {
+    this.store.dispatch(loadMorePlanets());
   }
 }
