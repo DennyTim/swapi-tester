@@ -1,6 +1,5 @@
 import {PlanetsState} from "../reducers/planets.reducer";
 import {PlanetsModel} from "../../interfaces/planets.model";
-import {cloneDeep} from "lodash";
 
 const compose = <T>(...callback: Array<(arg: T) => T>) => (payload: T) => {
   return callback.reduceRight((prevResult, fn) => fn(prevResult), payload)
@@ -17,7 +16,7 @@ export const populatePlanetsPhoto = (planetsList: PlanetsModel[]) => {
   }
 
   return planetsList.map((item: PlanetsModel) => {
-    return cloneDeep({
+    return structuredClone({
       ...item,
       imageUrl: generateRandomPlanet()
     });
@@ -35,7 +34,7 @@ export const generateId = (planetsList: PlanetsModel[]): PlanetsModel[] => {
   }
 
   return planetsList.map((item: PlanetsModel) => {
-    return cloneDeep({
+    return structuredClone({
       ...item,
       id: generatePlanetId()
     });
