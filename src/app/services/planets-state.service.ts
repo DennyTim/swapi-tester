@@ -1,7 +1,10 @@
 import {Injectable} from "@angular/core";
 import {AppState} from "../store";
-import {Store} from "@ngrx/store";
-import {loadMorePlanets, loadPlanets} from "../store/actions/planets.action";
+import {select, Store} from "@ngrx/store";
+import {loadMorePlanets, loadPlanetById, loadPlanets} from "../store/actions/planets.action";
+import {filter, Observable} from "rxjs";
+import {PlanetsModel} from "../interfaces/planets.model";
+import {getSelectedPlanet} from "../store/selectors/planets.selector";
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +20,13 @@ export class PlanetsStateService {
 
   public loadMorePlanets(): void {
     this.store.dispatch(loadMorePlanets());
+  }
+
+  public loadPlanetById(id: string): void {
+    this.store.dispatch(loadPlanetById({ id }));
+  }
+
+  public getSelectedPlanet(): Observable<Partial<PlanetsModel>> {
+    return this.store.pipe(select(getSelectedPlanet))
   }
 }

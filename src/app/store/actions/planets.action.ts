@@ -1,5 +1,5 @@
 import {createAction, props} from "@ngrx/store";
-import {PlanetsRequestPayload} from "../../interfaces/planets.model";
+import {PlanetsModel, PlanetsRequestPayload} from "../../interfaces/planets.model";
 
 export enum PlanetsAction {
   loadPlanets = '[Planets Page] Get Planets',
@@ -7,7 +7,10 @@ export enum PlanetsAction {
   loadPlanetsFailure = '[Planet Page] Get Planets Failure',
   loadMorePlanets = '[Planet Page] Get More Planets',
   loadMorePlanetsSuccess = '[Planet Page] Get More Planets Success',
-  loadMorePlanetsFailure = '[Planet Page] Get More Planets Failure'
+  loadMorePlanetsFailure = '[Planet Page] Get More Planets Failure',
+  loadPlanetById = '[Planet Detail Page] Get Planet by Id',
+  loadPlanetByIdSuccess = '[Planet Detail Page] Get Planet by Id Success',
+  loadPlanetByIdFailure = '[Planet Detail Page] Get Planet by Id Failure'
 }
 
 export const loadPlanets = createAction(PlanetsAction.loadPlanets);
@@ -33,5 +36,20 @@ export const loadMorePlanetsSuccess = createAction(
 
 export const loadMorePlanetsFailure = createAction(
   PlanetsAction.loadMorePlanetsFailure,
+  props<{ error: unknown }>()
+)
+
+export const loadPlanetById = createAction(
+  PlanetsAction.loadPlanetById,
+  props<{ id: string }>()
+)
+
+export const loadPlanetByIdSuccess = createAction(
+  PlanetsAction.loadPlanetByIdSuccess,
+  props<{ selectedPlanet: PlanetsModel }>()
+)
+
+export const loadPlanetByIdFailure = createAction(
+  PlanetsAction.loadPlanetByIdFailure,
   props<{ error: unknown }>()
 )

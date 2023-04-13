@@ -12,6 +12,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatButtonModule} from "@angular/material/button";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {LetModule} from "@ngrx/component";
+import {IsArrayPipe} from "../../pipes/is-array.pipe";
 
 const routes: Routes = [
   {
@@ -45,7 +46,8 @@ const routes: Routes = [
   declarations: [
     PlanetsComponent,
     PlanetsListComponent,
-    PlanetDetailsComponent
+    PlanetDetailsComponent,
+    IsArrayPipe
   ],
 })
 export class PlanetsModule {

@@ -1,17 +1,17 @@
-<div class="planet-detail">
+<div *ngIf="planetData$ | async as planet" class="planet-detail">
   <mat-card class="planet-detail__card">
     <mat-card-header>
       <img
         mat-card-avatar
         class="planet-detail__avatar"
-        src="https://starwars-visualguide.com/assets/img/planets/5.jpg"
+        [src]="planet.imageUrl"
         alt="Photo of {{ planet.name }}"
       >
       <mat-card-title>{{ planet.name }}</mat-card-title>
     </mat-card-header>
     <img
       mat-card-image
-      src="https://starwars-visualguide.com/assets/img/planets/5.jpg"
+      [src]="planet.imageUrl"
       alt="Photo of {{ planet.name }}"
     >
   </mat-card>
@@ -22,8 +22,30 @@
         class="planet-detail__options-item"
       >
         <p matListItemTitle class="planet-detail__options-title">{{ param | titlecase }}</p>
-        <p matListItemLine class="planet-detail__options-value">{{ planet[param] }}</p>
+        <p
+          matListItemLine
+          *ngIf="!(planet[param] | isArray)"
+          class="planet-detail__options-value"
+        >{{ planet[param] }}</p>
       </mat-list-item>
     </ng-container>
+    <mat-list-item
+      *ngIf="planet?.citizens"
+      class="planet-detail__options-item"
+    >
+      <p class="planet-detail__options-title">Residents</p>
+      <div
+        *ngIf="planet?.citizens; else emptyList"
+        class="planet-detail__options-custom-list"
+      >
+        <ng-container *ngFor="let person of planet?.citizens">
+          <p class="planet-detail__options-custom-value">{{ person.name }}</p>
+        </ng-container>
+      </div>
+    </mat-list-item>
   </mat-list>
 </div>
+
+<ng-template #emptyList>
+  <p class="planet-detail__options-value">Residents aren't exist</p>
+</ng-template>

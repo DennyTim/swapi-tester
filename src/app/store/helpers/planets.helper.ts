@@ -68,3 +68,16 @@ export const addMorePlanets = (
     ]
   };
 }
+
+export const setSelectedPlanet = (
+  state: PlanetsState,
+  {selectedPlanet}: Pick<PlanetsState, 'selectedPlanet'>
+) => {
+  return {
+    ...state,
+    selectedPlanet: structuredClone({
+      ...selectedPlanet,
+      imageUrl: generateRandomPlanet()
+    })
+  }
+}

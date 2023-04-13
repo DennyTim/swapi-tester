@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AppState} from "../../../../store";
 import {select, Store} from "@ngrx/store";
 import {getLoadingStatus} from "../../../../store/selectors/loading.selector";
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {PlanetsStateService} from "../../../../services/planets-state.service";
 import {selectAllPlanets} from "../../../../store/selectors/planets.selector";
 
@@ -39,22 +39,31 @@ export class PlanetsListComponent implements OnInit {
     return item.id;
   }
 
-  public handlePlanetDetails(url: string): void {
+  public async handlePlanetDetails(url: string): Promise<void> {
     const planetParams = url.split("/").filter(item => item);
-    const id = Number(planetParams[planetParams.length - 1]);
+    const id = planetParams[planetParams.length - 1];
 
-    void this.router.navigate([`/planets/${id}`], {relativeTo: this.route});
+    try {
+      if (!id) {
+        return Promise.reject(new Error(`Planet id wasn't retrieved`))
+      }
+
+      const isNavigated = await this.router.navigate(
+        [`/planets/${id}`],
+        {relativeTo: this.route}
+      );
+
+      if (!isNavigated) {
+        return Promise.reject(new Error(`Current planet wasn't loaded`))
+      }
+
+      this.planetsStateService.loadPlanetById(id);
+    } catch (err) {
+      console.error(`This error occurred in routing process with following error `, err)
+    }
   }
 
   public loadPlanets(): void {
-    // TODO: remove code below after loadMorePlanets implementing
-    // if (this.payload.next) {
-    //   this.planetsService.getPlanetsByUrl(this.payload.next)
-    //     .subscribe((data) => {
-    //       this.allPlanets = [...this.allPlanets, ...data.results];
-    //       this.payload = data;
-    //     })
-    // }
     this.planetsStateService.loadMorePlanets();
   }
 }

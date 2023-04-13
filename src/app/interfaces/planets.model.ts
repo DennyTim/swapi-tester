@@ -16,11 +16,30 @@ export interface PlanetsModel {
   terrain: string;
   surface_water: number;
   population: number;
-  // TODO: implement it after planets page
-  // residents: PersonsModel[];
+  residents: string[];
+  citizens: PersonsModel[]
   films: string;
   created: string;
   edited: string;
   url: string;
   imageUrl: string;
+}
+
+export interface PersonsModel {
+  name: string;
+  height: number;
+  mass: number;
+  hair_color: string;
+  skin_color: string;
+  eye_color: string;
+  birth_year: string;
+  gender: string;
+  homeworld: string;
+  films: string[];
+  species: string[];
+  vehicles: string[];
+  starships: string[];
+  created: string[];
+  edited: string;
+  url: string;
 }
