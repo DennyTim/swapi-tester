@@ -13,6 +13,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {LetModule} from "@ngrx/component";
 import {IsArrayPipe} from "../../pipes/is-array.pipe";
+import {PlanetDetailsResolver} from "../../resolvers/planet-details.resolver";
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
       {
         path: ":id",
         component: PlanetDetailsComponent,
+        resolve: { _: PlanetDetailsResolver },
         pathMatch: "full"
       }
     ]

@@ -4,7 +4,7 @@ import {select, Store} from "@ngrx/store";
 import {loadMorePlanets, loadPlanetById, loadPlanets} from "../store/actions/planets.action";
 import {filter, Observable} from "rxjs";
 import {PlanetsModel} from "../interfaces/planets.model";
-import {getSelectedPlanet} from "../store/selectors/planets.selector";
+import {getSelectedPlanet, selectAllPlanets} from "../store/selectors/planets.selector";
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +28,9 @@ export class PlanetsStateService {
 
   public getSelectedPlanet(): Observable<Partial<PlanetsModel>> {
     return this.store.pipe(select(getSelectedPlanet))
+  }
+
+  public getAllPlanets(): Observable<Partial<PlanetsModel[]>> {
+    return this.store.pipe(select(selectAllPlanets))
   }
 }
