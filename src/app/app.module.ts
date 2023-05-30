@@ -13,6 +13,7 @@ import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {effectList, mainReducer} from "./store";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -21,18 +22,19 @@ import {effectList, mainReducer} from "./store";
     FooterComponent,
     ErrorPageComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    /**
-     * Custom modules
-     * */
-    AppRoutingModule,
-    MatToolbarModule,
-    StoreModule.forRoot(mainReducer),
-    EffectsModule.forRoot(effectList),
-    StoreDevtoolsModule.instrument({maxAge: 25})
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        /**
+         * Custom modules
+         * */
+        AppRoutingModule,
+        MatToolbarModule,
+        StoreModule.forRoot(mainReducer),
+        EffectsModule.forRoot(effectList),
+        StoreDevtoolsModule.instrument({maxAge: 25}),
+        MatButtonModule
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

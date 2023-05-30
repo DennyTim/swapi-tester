@@ -18,6 +18,10 @@ const routes: Routes = [
     loadChildren: () => import("./modules/planets/planets.module").then(m => m.PlanetsModule)
   },
   {
+    path: "auth",
+    loadChildren: () => import("./modules/auth/auth.module").then(m => m.AuthModule)
+  },
+  {
     path: "**",
     redirectTo: "/not-found"
   },

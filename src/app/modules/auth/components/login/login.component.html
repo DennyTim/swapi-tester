@@ -1,0 +1,36 @@
+<ng-container *ngIf="(errors$ | async) as error">
+  <p class="mat-error">{{ error.code }}: {{ error.message }}</p>
+</ng-container>
+
+<form
+  class="form-login"
+  [formGroup]="loginForm"
+  (ngSubmit)="login()"
+>
+  <h2 class="mat-title white form-title">Login User</h2>
+  <div class="form-input">
+    <label class="form-label">Email</label>
+    <app-input
+      [control]="email"
+      type="email"
+      placeholder="Enter Email"
+    ></app-input>
+  </div>
+
+  <div class="form-input">
+    <label class="form-label">Password</label>
+    <app-input
+      [control]="password"
+      type="password"
+      placeholder="Enter Password"
+    ></app-input>
+  </div>
+
+  <button
+    mat-button
+    class="form-btn__submit"
+    type="submit"
+    color="accent"
+    [disabled]="loginForm.invalid || inSubmission"
+  >Submit</button>
+</form>
